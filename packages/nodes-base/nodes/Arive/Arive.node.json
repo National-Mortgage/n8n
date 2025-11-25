@@ -1,0 +1,19 @@
+{
+	"node": "n8n-nodes-base.arive",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["CRM", "Finance & Banking"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://docs.arive.com/api/authentication"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://docs.arive.com/api"
+			}
+		]
+	},
+	"alias": ["Mortgage", "Loan", "LOS"]
+}

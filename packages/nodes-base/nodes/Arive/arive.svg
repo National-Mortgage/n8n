@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#2563eb"/>
+  <g fill="#ffffff">
+    <!-- Letter A -->
+    <path d="M 18 42 L 24 22 L 30 42 L 26 42 L 25 38 L 23 38 L 22 42 Z M 23.5 35 L 24.5 35 L 24 30 Z"/>
+    <!-- House icon representing real estate/mortgage -->
+    <path d="M 38 24 L 32 19 L 26 24 L 26 42 L 38 42 L 38 24 Z M 32 38 L 32 32 L 36 32 L 36 38 Z"/>
+    <!-- Dollar sign overlay -->
+    <text x="44" y="38" font-size="16" font-weight="bold" fill="#fbbf24">$</text>
+  </g>
+</svg>

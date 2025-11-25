@@ -1,0 +1,19 @@
+{
+	"node": "n8n-nodes-base.ariveTrigger",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["CRM", "Finance & Banking"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://docs.arive.com/api/authentication"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://docs.arive.com/api/webhooks"
+			}
+		]
+	},
+	"alias": ["Mortgage Webhook", "Loan Webhook", "LOS Trigger"]
+}
