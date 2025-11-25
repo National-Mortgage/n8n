@@ -9,6 +9,60 @@ import type {
 } from 'n8n-workflow';
 import { NodeApiError } from 'n8n-workflow';
 
+let accessTokenCache: { token: string; expiresAt: number } | null = null;
+
+async function getAccessToken(
+	this: IExecuteFunctions | ILoadOptionsFunctions | IHookFunctions,
+): Promise<string> {
+	const credentials = await this.getCredentials('ariveApi');
+
+	// Check if we have cached token and it's not expired
+	if (accessTokenCache && accessTokenCache.expiresAt > Date.now()) {
+		return accessTokenCache.token;
+	}
+
+	// Check if OAuth credentials are provided
+	const hasOAuthCreds =
+		credentials.clientId && credentials.secret && credentials.appId && credentials.appSecretHash;
+
+	if (!hasOAuthCreds) {
+		// Use simple API key authentication
+		return credentials.apiKey as string;
+	}
+
+	// Get new access token via OAuth
+	const loginBody = {
+		clientId: credentials.clientId,
+		secret: credentials.secret,
+		apiKey: credentials.apiKey,
+		appId: credentials.appId,
+		appSecretHash: credentials.appSecretHash,
+	};
+
+	const options: IRequestOptions = {
+		headers: {
+			'Content-Type': 'application/json',
+			'X-API-KEY': credentials.apiKey as string,
+		},
+		method: 'POST',
+		body: loginBody,
+		uri: `${credentials.baseUrl}/api/auth/login`,
+		json: true,
+	};
+
+	try {
+		const response = await this.helpers.request(options);
+		const expiresIn = (response.ExpiresIn as number) || 3600;
+		accessTokenCache = {
+			token: response.AccessToken as string,
+			expiresAt: Date.now() + expiresIn * 1000 - 60000, // Refresh 1 min before expiry
+		};
+		return accessTokenCache.token;
+	} catch (error) {
+		throw new NodeApiError(this.getNode(), error as JsonObject);
+	}
+}
+
 export async function ariveApiRequest(
 	this: IExecuteFunctions | ILoadOptionsFunctions | IHookFunctions,
 	method: IHttpRequestMethods,
@@ -19,12 +73,25 @@ export async function ariveApiRequest(
 	option: IDataObject = {},
 ): Promise<any> {
 	const credentials = await this.getCredentials('ariveApi');
+	const token = await getAccessToken.call(this);
+
+	// Check if using OAuth (AccessToken) or simple API key
+	const hasOAuthCreds =
+		credentials.clientId && credentials.secret && credentials.appId && credentials.appSecretHash;
+
+	const headers: IDataObject = {
+		'Content-Type': 'application/json',
+	};
+
+	if (hasOAuthCreds) {
+		headers['Authorization'] = `Bearer ${token}`;
+		headers['X-API-KEY'] = credentials.apiKey as string;
+	} else {
+		headers['X-API-KEY'] = token;
+	}
 
 	let options: IRequestOptions = {
-		headers: {
-			'Content-Type': 'application/json',
-			'X-API-KEY': credentials.apiKey,
-		},
+		headers,
 		method,
 		qs,
 		body,
