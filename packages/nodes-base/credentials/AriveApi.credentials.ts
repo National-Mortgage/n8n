@@ -1,4 +1,10 @@
-import type { ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	ICredentialDataDecryptedObject,
+	ICredentialTestRequest,
+	ICredentialType,
+	IHttpRequestOptions,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class AriveApi implements ICredentialType {
 	name = 'ariveApi';
@@ -25,41 +31,27 @@ export class AriveApi implements ICredentialType {
 			},
 			default: '',
 			required: true,
-			description: 'Your Arive API key - get this from Arive Integration settings',
-		},
-		{
-			displayName: 'Client ID',
-			name: 'clientId',
-			type: 'string',
-			default: '',
-			description: 'Client ID issued by Arive',
-		},
-		{
-			displayName: 'Secret Access Key',
-			name: 'secret',
-			type: 'string',
-			typeOptions: {
-				password: true,
-			},
-			default: '',
-			description: 'Secret Access Key',
-		},
-		{
-			displayName: 'App ID',
-			name: 'appId',
-			type: 'string',
-			default: '',
-			description: 'App ID',
-		},
-		{
-			displayName: 'App Secret Hash',
-			name: 'appSecretHash',
-			type: 'string',
-			typeOptions: {
-				password: true,
-			},
-			default: '',
-			description: 'App Secret Hash (created with client id, app id and App Secret)',
+			description: 'Your Arive API key from the Integration settings screen in Arive',
+			placeholder: 'Enter your API key',
 		},
 	];
+
+	async authenticate(
+		credentials: ICredentialDataDecryptedObject,
+		requestOptions: IHttpRequestOptions,
+	): Promise<IHttpRequestOptions> {
+		requestOptions.headers = {
+			...requestOptions.headers,
+			'X-API-KEY': credentials.apiKey as string,
+		};
+		return requestOptions;
+	}
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: '={{$credentials.baseUrl}}',
+			url: '/api/loans?limit=1',
+			method: 'GET',
+		},
+	};
 }
