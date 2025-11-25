@@ -7,7 +7,7 @@ import type {
 	IRequestOptions,
 	JsonObject,
 } from 'n8n-workflow';
-import { NodeApiError, NodeOperationError } from 'n8n-workflow';
+import { NodeApiError } from 'n8n-workflow';
 
 export async function ariveApiRequest(
 	this: IExecuteFunctions | ILoadOptionsFunctions | IHookFunctions,
@@ -20,18 +20,17 @@ export async function ariveApiRequest(
 ): Promise<any> {
 	const credentials = await this.getCredentials('ariveApi');
 
-	// Validate API key is present
-	if (!credentials.apiKey || credentials.apiKey === '') {
-		throw new NodeOperationError(
-			this.getNode(),
-			'API Key is required. Please enter your Arive API key in the credentials.',
-		);
-	}
+	console.log('=== ARIVE API REQUEST DEBUG ===');
+	console.log('Credentials:', {
+		baseUrl: credentials.baseUrl,
+		hasApiKey: !!credentials.apiKey,
+		apiKeyLength: credentials.apiKey ? (credentials.apiKey as string).length : 0,
+	});
+	console.log('Request:', { method, resource, uri: uri || `${credentials.baseUrl}${resource}` });
 
 	let options: IRequestOptions = {
 		headers: {
 			'Content-Type': 'application/json',
-			'X-API-KEY': credentials.apiKey as string,
 		},
 		method,
 		qs,
@@ -46,9 +45,19 @@ export async function ariveApiRequest(
 		delete options.body;
 	}
 
+	console.log(
+		'Request options BEFORE requestWithAuthentication:',
+		JSON.stringify(options, null, 2),
+	);
+
 	try {
-		return await this.helpers.request(options);
+		// This will use the authenticate() method from AriveApi.credentials.ts
+		// which adds the X-API-KEY header
+		const response = await this.helpers.requestWithAuthentication.call(this, 'ariveApi', options);
+		console.log('=== SUCCESS ===', response);
+		return response;
 	} catch (error) {
+		console.error('=== REQUEST FAILED ===', error);
 		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
 }
