@@ -39,10 +39,10 @@ export class AriveApi implements ICredentialType {
 			type: 'string',
 			default: '',
 			required: true,
-			description: 'Client ID from Arive Integration settings',
+			description: 'Client ID from Arive',
 		},
 		{
-			displayName: 'Secret',
+			displayName: 'Client Secret',
 			name: 'secret',
 			type: 'string',
 			typeOptions: {
@@ -50,26 +50,7 @@ export class AriveApi implements ICredentialType {
 			},
 			default: '',
 			required: true,
-			description: 'Secret Access Key from Arive Integration settings',
-		},
-		{
-			displayName: 'App ID',
-			name: 'appId',
-			type: 'string',
-			default: '',
-			required: true,
-			description: 'App ID from Arive Integration settings',
-		},
-		{
-			displayName: 'App Secret Hash',
-			name: 'appSecretHash',
-			type: 'string',
-			typeOptions: {
-				password: true,
-			},
-			default: '',
-			required: true,
-			description: 'App Secret Hash from Arive Integration settings',
+			description: 'Client Secret from Arive',
 		},
 	];
 
@@ -78,26 +59,39 @@ export class AriveApi implements ICredentialType {
 		requestOptions: IHttpRequestOptions,
 	): Promise<IHttpRequestOptions> {
 		// First, get access token by calling /api/auth/login
+		const loginBody = {
+			clientId: credentials.clientId,
+			secret: credentials.secret,
+			apiKey: credentials.apiKey,
+		};
+
+		console.log('=== ARIVE LOGIN ATTEMPT ===');
+		console.log('Login URL:', `${credentials.baseUrl}/api/auth/login`);
+		console.log('Login body:', {
+			clientId: credentials.clientId,
+			secret: '[REDACTED]',
+			apiKey: '[REDACTED]',
+		});
+
 		const loginResponse = await fetch(`${credentials.baseUrl}/api/auth/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'X-API-KEY': credentials.apiKey as string,
 			},
-			body: JSON.stringify({
-				clientId: credentials.clientId,
-				secret: credentials.secret,
-				apiKey: credentials.apiKey,
-				appId: credentials.appId,
-				appSecretHash: credentials.appSecretHash,
-			}),
+			body: JSON.stringify(loginBody),
 		});
 
+		console.log('Login response status:', loginResponse.status, loginResponse.statusText);
+
 		if (!loginResponse.ok) {
-			throw new Error(`Arive authentication failed: ${loginResponse.statusText}`);
+			const errorText = await loginResponse.text();
+			console.error('Login failed response:', errorText);
+			throw new Error(`Arive authentication failed (${loginResponse.status}): ${errorText}`);
 		}
 
 		const loginData = (await loginResponse.json()) as { AccessToken: string };
+		console.log('Login successful, got AccessToken');
 
 		// Use the access token for subsequent requests
 		requestOptions.headers = {
