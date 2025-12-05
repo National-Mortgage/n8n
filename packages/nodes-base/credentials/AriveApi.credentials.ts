@@ -18,9 +18,9 @@ export class AriveApi implements ICredentialType {
 			displayName: 'API Base URL',
 			name: 'baseUrl',
 			type: 'string',
-			default: 'https://api.arive.com',
+			default: 'https://gwapiconnect.myarive.com',
 			description: 'The base URL of your Arive API instance',
-			placeholder: 'https://api.arive.com',
+			placeholder: 'https://gwapiconnect.myarive.com',
 		},
 		{
 			displayName: 'API Key',
@@ -66,14 +66,14 @@ export class AriveApi implements ICredentialType {
 		};
 
 		console.log('=== ARIVE LOGIN ATTEMPT ===');
-		console.log('Login URL:', `${credentials.baseUrl}/api/auth/login`);
+		console.log('Login URL:', `${credentials.baseUrl}/api/auth/access-token`);
 		console.log('Login body:', {
 			clientId: credentials.clientId,
 			secret: '[REDACTED]',
 			apiKey: '[REDACTED]',
 		});
 
-		const loginResponse = await fetch(`${credentials.baseUrl}/api/auth/login`, {
+		const loginResponse = await fetch(`${credentials.baseUrl}/api/auth/access-token`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

@@ -7,31 +7,6 @@ turbo 2.5.4
 • Packages in scope: @n8n/ai-workflow-builder, @n8n/api-types, @n8n/backend-common, @n8n/backend-test-utils, @n8n/chat, @n8n/client-oauth2, @n8n/codemirror-lang, @n8n/codemirror-lang-sql, @n8n/composables, @n8n/config, @n8n/constants, @n8n/create-node, @n8n/db, @n8n/decorators, @n8n/design-system, @n8n/di, @n8n/errors, @n8n/eslint-config, @n8n/eslint-plugin-community-nodes, @n8n/extension-sdk, @n8n/i18n, @n8n/imap, @n8n/json-schema-to-zod, @n8n/n8n-benchmark, @n8n/n8n-extension-insights, @n8n/n8n-nodes-langchain, @n8n/node-cli, @n8n/permissions, @n8n/rest-api-client, @n8n/scan-community-package, @n8n/stores, @n8n/storybook, @n8n/stylelint-config, @n8n/task-runner, @n8n/typescript-config, @n8n/utils, @n8n/vitest-config, n8n, n8n-containers, n8n-core, n8n-editor-ui, n8n-node-dev, n8n-nodes-base, n8n-playwright, n8n-workflow
 • Running build in 45 packages
 • Remote caching disabled
-@n8n/codemirror-lang:build: cache hit, replaying logs aef6739eb3c1be92
-@n8n/client-oauth2:build: cache hit, replaying logs eea844e87d87eb0f
-@n8n/codemirror-lang:build: 
-@n8n/codemirror-lang:build: > @n8n/codemirror-lang@0.3.0 build /home/alch33my/Desktop/n8n/packages/@n8n/codemirror-lang
-@n8n/codemirror-lang:build: > tsc -p tsconfig.build.json
-@n8n/di:build: cache hit, replaying logs e20d875da6e7d895
-@n8n/client-oauth2:build: 
-@n8n/client-oauth2:build: > @n8n/client-oauth2@0.31.0 build /home/alch33my/Desktop/n8n/packages/@n8n/client-oauth2
-@n8n/client-oauth2:build: > tsc -p tsconfig.build.json
-@n8n/codemirror-lang:build: 
-@n8n/client-oauth2:build: 
-@n8n/di:build: 
-@n8n/di:build: > @n8n/di@0.9.0 build /home/alch33my/Desktop/n8n/packages/@n8n/di
-@n8n/di:build: > tsc -p tsconfig.build.json
-@n8n/di:build: 
-@n8n/n8n-benchmark:build: cache hit, replaying logs 908c4172b5b6b119
-@n8n/errors:build: cache hit, replaying logs b57add33628fd34c
-@n8n/n8n-benchmark:build: 
-@n8n/n8n-benchmark:build: > @n8n/n8n-benchmark@1.29.0 build /home/alch33my/Desktop/n8n/packages/@n8n/benchmark
-@n8n/errors:build: 
-@n8n/errors:build: > @n8n/errors@0.5.0 build /home/alch33my/Desktop/n8n/packages/@n8n/errors
-@n8n/n8n-benchmark:build: > tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json
-@n8n/n8n-benchmark:build: 
-@n8n/errors:build: > tsc -p tsconfig.build.json
-@n8n/errors:build: 
 @n8n/extension-sdk:build: cache hit, replaying logs 7ff4de27aa3b91c9
 @n8n/extension-sdk:build: 
 @n8n/extension-sdk:build: > @n8n/extension-sdk@0.9.0 build /home/alch33my/Desktop/n8n/packages/@n8n/extension-sdk
@@ -79,7 +54,6 @@ turbo 2.5.4
 @n8n/extension-sdk:build: ℹ [ESM] dist/frontend/index.mjs        0.10 kB │ gzip: 0.09 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/frontend/types.mjs        0.01 kB │ gzip: 0.03 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/frontend/define2.mjs.map  0.33 kB │ gzip: 0.23 kB
-@n8n/vitest-config:build: cache hit, replaying logs 582b9467d38bfd99
 @n8n/extension-sdk:build: ℹ [ESM] dist/frontend/define2.mjs      0.19 kB │ gzip: 0.15 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/frontend/index.d.mts      0.28 kB │ gzip: 0.13 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/frontend/types.d.mts      0.20 kB │ gzip: 0.11 kB
@@ -89,12 +63,8 @@ turbo 2.5.4
 @n8n/extension-sdk:build: ℹ [ESM] 10 files, total: 2.18 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/backend/define.mjs       0.10 kB │ gzip: 0.09 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/backend/index.mjs        0.10 kB │ gzip: 0.09 kB
-@n8n/vitest-config:build: 
-@n8n/vitest-config:build: > @n8n/vitest-config@1.5.0 build /home/alch33my/Desktop/n8n/packages/@n8n/vitest-config
-@n8n/vitest-config:build: > tsc -p tsconfig.build.json
 @n8n/extension-sdk:build: ℹ [ESM] dist/backend/types.mjs        0.01 kB │ gzip: 0.03 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/backend/define2.mjs.map  0.33 kB │ gzip: 0.23 kB
-@n8n/vitest-config:build: 
 @n8n/extension-sdk:build: ℹ [ESM] dist/backend/define2.mjs      0.19 kB │ gzip: 0.15 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/backend/index.d.mts      0.28 kB │ gzip: 0.13 kB
 @n8n/extension-sdk:build: ℹ [ESM] dist/backend/types.d.mts      0.19 kB │ gzip: 0.11 kB
@@ -125,21 +95,11 @@ turbo 2.5.4
 @n8n/extension-sdk:build: > @n8n/extension-sdk@0.9.0 create-json-schema /home/alch33my/Desktop/n8n/packages/@n8n/extension-sdk
 @n8n/extension-sdk:build: > tsx scripts/create-json-schema.ts
 @n8n/extension-sdk:build: 
-@n8n/stylelint-config:build: cache hit, replaying logs f4f81ebe06d33918
-@n8n/stylelint-config:build: 
-@n8n/stylelint-config:build: > @n8n/stylelint-config@0.0.1 build /home/alch33my/Desktop/n8n/packages/@n8n/stylelint-config
-@n8n/stylelint-config:build: > tsc
-@n8n/stylelint-config:build: 
-@n8n/constants:build: cache hit, replaying logs bd57fdb9b795caee
-@n8n/constants:build: 
-@n8n/constants:build: > @n8n/constants@0.14.0 build /home/alch33my/Desktop/n8n/packages/@n8n/constants
-@n8n/constants:build: > tsc -p tsconfig.build.json
-@n8n/constants:build: 
-@n8n/codemirror-lang-sql:build: cache hit, replaying logs a0f0922b2e3aa6df
-@n8n/codemirror-lang-sql:build: 
-@n8n/codemirror-lang-sql:build: > @n8n/codemirror-lang-sql@1.2.0 build /home/alch33my/Desktop/n8n/packages/@n8n/codemirror-lang-sql
-@n8n/codemirror-lang-sql:build: > tsc -p tsconfig.build.json
-@n8n/codemirror-lang-sql:build: 
+@n8n/client-oauth2:build: cache hit, replaying logs eea844e87d87eb0f
+@n8n/client-oauth2:build: 
+@n8n/client-oauth2:build: > @n8n/client-oauth2@0.31.0 build /home/alch33my/Desktop/n8n/packages/@n8n/client-oauth2
+@n8n/client-oauth2:build: > tsc -p tsconfig.build.json
+@n8n/client-oauth2:build: 
 @n8n/json-schema-to-zod:build: cache hit, replaying logs 20edd0e8591a24e5
 @n8n/json-schema-to-zod:build: 
 @n8n/json-schema-to-zod:build: > @n8n/json-schema-to-zod@1.5.0 build /home/alch33my/Desktop/n8n/packages/@n8n/json-schema-to-zod
@@ -157,21 +117,51 @@ turbo 2.5.4
 @n8n/json-schema-to-zod:build: > @n8n/json-schema-to-zod@1.5.0 build:esm /home/alch33my/Desktop/n8n/packages/@n8n/json-schema-to-zod
 @n8n/json-schema-to-zod:build: > tsc -p tsconfig.esm.json && node postesm.cjs
 @n8n/json-schema-to-zod:build: 
+@n8n/n8n-benchmark:build: cache hit, replaying logs 908c4172b5b6b119
+@n8n/n8n-benchmark:build: 
+@n8n/n8n-benchmark:build: > @n8n/n8n-benchmark@1.29.0 build /home/alch33my/Desktop/n8n/packages/@n8n/benchmark
+@n8n/n8n-benchmark:build: > tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json
+@n8n/n8n-benchmark:build: 
+@n8n/constants:build: cache hit, replaying logs bd57fdb9b795caee
+@n8n/constants:build: 
 @n8n/permissions:build: cache hit, replaying logs a61787f3da5349ab
+@n8n/constants:build: > @n8n/constants@0.14.0 build /home/alch33my/Desktop/n8n/packages/@n8n/constants
+@n8n/constants:build: > tsc -p tsconfig.build.json
+@n8n/constants:build: 
 @n8n/permissions:build: 
 @n8n/permissions:build: > @n8n/permissions@0.42.0 build /home/alch33my/Desktop/n8n/packages/@n8n/permissions
 @n8n/permissions:build: > tsc -p tsconfig.build.json
 @n8n/permissions:build: 
+@n8n/vitest-config:build: cache hit, replaying logs 582b9467d38bfd99
+@n8n/vitest-config:build: 
+@n8n/vitest-config:build: > @n8n/vitest-config@1.5.0 build /home/alch33my/Desktop/n8n/packages/@n8n/vitest-config
+@n8n/vitest-config:build: > tsc -p tsconfig.build.json
+@n8n/vitest-config:build: 
+@n8n/stylelint-config:build: cache hit, replaying logs f4f81ebe06d33918
+@n8n/stylelint-config:build: 
+@n8n/stylelint-config:build: > @n8n/stylelint-config@0.0.1 build /home/alch33my/Desktop/n8n/packages/@n8n/stylelint-config
+@n8n/stylelint-config:build: > tsc
+@n8n/stylelint-config:build: 
+@n8n/di:build: cache hit, replaying logs e20d875da6e7d895
+@n8n/di:build: 
+@n8n/di:build: > @n8n/di@0.9.0 build /home/alch33my/Desktop/n8n/packages/@n8n/di
+@n8n/di:build: > tsc -p tsconfig.build.json
+@n8n/di:build: 
+@n8n/errors:build: cache hit, replaying logs b57add33628fd34c
+@n8n/errors:build: 
+@n8n/errors:build: > @n8n/errors@0.5.0 build /home/alch33my/Desktop/n8n/packages/@n8n/errors
+@n8n/errors:build: > tsc -p tsconfig.build.json
+@n8n/errors:build: 
+@n8n/codemirror-lang:build: cache hit, replaying logs aef6739eb3c1be92
+@n8n/codemirror-lang:build: 
+@n8n/codemirror-lang:build: > @n8n/codemirror-lang@0.3.0 build /home/alch33my/Desktop/n8n/packages/@n8n/codemirror-lang
+@n8n/codemirror-lang:build: > tsc -p tsconfig.build.json
+@n8n/codemirror-lang:build: 
 @n8n/imap:build: cache hit, replaying logs ed63be78dd546e02
 @n8n/imap:build: 
 @n8n/imap:build: > @n8n/imap@0.15.0 build /home/alch33my/Desktop/n8n/packages/@n8n/imap
 @n8n/imap:build: > tsc -p tsconfig.build.json
 @n8n/imap:build: 
-@n8n/eslint-plugin-community-nodes:build: cache hit, replaying logs 1d543df652b0b66e
-@n8n/eslint-plugin-community-nodes:build: 
-@n8n/eslint-plugin-community-nodes:build: > @n8n/eslint-plugin-community-nodes@0.6.0 build /home/alch33my/Desktop/n8n/packages/@n8n/eslint-plugin-community-nodes
-@n8n/eslint-plugin-community-nodes:build: > tsc --project tsconfig.build.json
-@n8n/eslint-plugin-community-nodes:build: 
 @n8n/n8n-extension-insights:build: cache hit, replaying logs 0beea9dbc914bb8f
 @n8n/n8n-extension-insights:build: 
 @n8n/n8n-extension-insights:build: > @n8n/n8n-extension-insights@0.11.0 build /home/alch33my/Desktop/n8n/packages/extensions/insights
@@ -181,16 +171,21 @@ turbo 2.5.4
 @n8n/n8n-extension-insights:build: > @n8n/n8n-extension-insights@0.11.0 cleanup /home/alch33my/Desktop/n8n/packages/extensions/insights
 @n8n/n8n-extension-insights:build: > rimraf dist
 @n8n/n8n-extension-insights:build: 
-@n8n/config:build: cache hit, replaying logs 77e70bd98f449c26
-@n8n/config:build: 
-@n8n/config:build: > @n8n/config@1.63.0 build /home/alch33my/Desktop/n8n/packages/@n8n/config
-@n8n/config:build: > tsc -p tsconfig.build.json
-@n8n/config:build: 
 @n8n/eslint-config:build: cache hit, replaying logs c043c77fa3311e72
 @n8n/eslint-config:build: 
 @n8n/eslint-config:build: > @n8n/eslint-config@0.0.1 build /home/alch33my/Desktop/n8n/packages/@n8n/eslint-config
 @n8n/eslint-config:build: > tsc
 @n8n/eslint-config:build: 
+@n8n/eslint-plugin-community-nodes:build: cache hit, replaying logs 1d543df652b0b66e
+@n8n/eslint-plugin-community-nodes:build: 
+@n8n/eslint-plugin-community-nodes:build: > @n8n/eslint-plugin-community-nodes@0.6.0 build /home/alch33my/Desktop/n8n/packages/@n8n/eslint-plugin-community-nodes
+@n8n/eslint-plugin-community-nodes:build: > tsc --project tsconfig.build.json
+@n8n/eslint-plugin-community-nodes:build: 
+@n8n/codemirror-lang-sql:build: cache hit, replaying logs a0f0922b2e3aa6df
+@n8n/codemirror-lang-sql:build: 
+@n8n/codemirror-lang-sql:build: > @n8n/codemirror-lang-sql@1.2.0 build /home/alch33my/Desktop/n8n/packages/@n8n/codemirror-lang-sql
+@n8n/codemirror-lang-sql:build: > tsc -p tsconfig.build.json
+@n8n/codemirror-lang-sql:build: 
 @n8n/composables:build: cache hit, replaying logs 815256d8b7857f82
 @n8n/composables:build: 
 @n8n/composables:build: > @n8n/composables@1.13.0 build /home/alch33my/Desktop/n8n/packages/frontend/@n8n/composables
@@ -223,6 +218,11 @@ turbo 2.5.4
 @n8n/composables:build: ℹ [CJS] dist/useThrottleWithReactiveDelay.d.cts  0.30 kB │ gzip: 0.19 kB
 @n8n/composables:build: ℹ [CJS] 3 files, total: 1.18 kB
 @n8n/composables:build: ✔ Build complete in 1525ms
+@n8n/config:build: cache hit, replaying logs 77e70bd98f449c26
+@n8n/config:build: 
+@n8n/config:build: > @n8n/config@1.63.0 build /home/alch33my/Desktop/n8n/packages/@n8n/config
+@n8n/config:build: > tsc -p tsconfig.build.json
+@n8n/config:build: 
 @n8n/utils:build: cache hit, replaying logs e66ba988329af32f
 @n8n/utils:build: 
 @n8n/utils:build: > @n8n/utils@1.19.0 build /home/alch33my/Desktop/n8n/packages/@n8n/utils
@@ -290,24 +290,15 @@ turbo 2.5.4
 @n8n/utils:build: ℹ [ESM] dist/event-bus2.mjs                     1.02 kB │ gzip: 0.47 kB
 @n8n/utils:build: ℹ [ESM] dist/event-queue2.mjs                   1.00 kB │ gzip: 0.48 kB
 @n8n/utils:build: ℹ [ESM] dist/sortByProperty.mjs.map             0.67 kB │ gzip: 0.41 kB
-@n8n/node-cli:build: cache hit, replaying logs f646d86540b51e3b
 @n8n/utils:build: ℹ [ESM] dist/smartDecimal.mjs.map               0.63 kB │ gzip: 0.37 kB
 @n8n/utils:build: ℹ [ESM] dist/reRankSearchResults.mjs            0.55 kB │ gzip: 0.30 kB
 @n8n/utils:build: ℹ [ESM] dist/assert2.mjs.map                    0.46 kB │ gzip: 0.33 kB
 @n8n/utils:build: ℹ [ESM] dist/sortByProperty.mjs                 0.38 kB │ gzip: 0.25 kB
 @n8n/utils:build: ℹ [ESM] dist/smartDecimal.mjs                   0.33 kB │ gzip: 0.22 kB
 @n8n/utils:build: ℹ [ESM] dist/assert2.mjs                        0.24 kB │ gzip: 0.19 kB
-@n8n/node-cli:build: 
-@n8n/node-cli:build: > @n8n/node-cli@0.16.0 build /home/alch33my/Desktop/n8n/packages/@n8n/node-cli
-@n8n/node-cli:build: > tsc -p tsconfig.build.json && pnpm copy-templates
-@n8n/node-cli:build: 
-@n8n/node-cli:build: 
-@n8n/node-cli:build: > @n8n/node-cli@0.16.0 copy-templates /home/alch33my/Desktop/n8n/packages/@n8n/node-cli
 @n8n/utils:build: ℹ [ESM] dist/index.d.mts                        0.84 kB │ gzip: 0.30 kB
 @n8n/utils:build: ℹ [ESM] dist/event-bus.d.mts                    0.14 kB │ gzip: 0.11 kB
 @n8n/utils:build: ℹ [ESM] dist/search/sublimeSearch.d.mts         0.12 kB │ gzip: 0.10 kB
-@n8n/node-cli:build: > node scripts/copy-templates.mjs
-@n8n/node-cli:build: 
 @n8n/utils:build: ℹ [ESM] dist/string/truncate.d.mts              0.11 kB │ gzip: 0.09 kB
 @n8n/utils:build: ℹ [ESM] dist/search/reRankSearchResults.d.mts   0.10 kB │ gzip: 0.08 kB
 @n8n/utils:build: ℹ [ESM] dist/event-queue.d.mts                  0.09 kB │ gzip: 0.08 kB
@@ -350,6 +341,15 @@ turbo 2.5.4
 @n8n/utils:build: ℹ [CJS] dist/assert2.d.cts                     0.18 kB │ gzip: 0.15 kB
 @n8n/utils:build: ℹ [CJS] 21 files, total: 5.14 kB
 @n8n/utils:build: ✔ Build complete in 1345ms
+@n8n/node-cli:build: cache hit, replaying logs f646d86540b51e3b
+@n8n/node-cli:build: 
+@n8n/node-cli:build: > @n8n/node-cli@0.16.0 build /home/alch33my/Desktop/n8n/packages/@n8n/node-cli
+@n8n/node-cli:build: > tsc -p tsconfig.build.json && pnpm copy-templates
+@n8n/node-cli:build: 
+@n8n/node-cli:build: 
+@n8n/node-cli:build: > @n8n/node-cli@0.16.0 copy-templates /home/alch33my/Desktop/n8n/packages/@n8n/node-cli
+@n8n/node-cli:build: > node scripts/copy-templates.mjs
+@n8n/node-cli:build: 
 @n8n/design-system:build: cache hit, replaying logs 1d1431eaba3fa221
 @n8n/design-system:build: 
 @n8n/design-system:build: > @n8n/design-system@1.108.0 build /home/alch33my/Desktop/n8n/packages/frontend/@n8n/design-system
@@ -494,11 +494,6 @@ n8n-workflow:build:
 @n8n/stores:build: ℹ [CJS] dist/constants2.d.cts            1.93 kB │ gzip: 0.78 kB
 @n8n/stores:build: ℹ [CJS] 6 files, total: 12.36 kB
 @n8n/stores:build: ✔ Build complete in 2019ms
-@n8n/decorators:build: cache hit, replaying logs 5f33bb78f65afdac
-@n8n/decorators:build: 
-@n8n/decorators:build: > @n8n/decorators@0.31.0 build /home/alch33my/Desktop/n8n/packages/@n8n/decorators
-@n8n/decorators:build: > tsc -p tsconfig.build.json
-@n8n/decorators:build: 
 @n8n/i18n:build: cache hit, replaying logs 8ac5fa0d4d12223d
 @n8n/i18n:build: 
 @n8n/i18n:build: > @n8n/i18n@1.25.0 build /home/alch33my/Desktop/n8n/packages/frontend/@n8n/i18n
@@ -533,6 +528,11 @@ n8n-workflow:build:
 @n8n/i18n:build: ℹ [CJS] dist/types2.d.cts  199.14 kB │ gzip: 27.42 kB
 @n8n/i18n:build: ℹ [CJS] 4 files, total: 410.20 kB
 @n8n/i18n:build: ✔ Build complete in 2767ms
+@n8n/decorators:build: cache hit, replaying logs 5f33bb78f65afdac
+@n8n/decorators:build: 
+@n8n/decorators:build: > @n8n/decorators@0.31.0 build /home/alch33my/Desktop/n8n/packages/@n8n/decorators
+@n8n/decorators:build: > tsc -p tsconfig.build.json
+@n8n/decorators:build: 
 @n8n/backend-common:build: cache hit, replaying logs b3fe97843dbda22c
 @n8n/backend-common:build: 
 @n8n/backend-common:build: > @n8n/backend-common@0.31.0 build /home/alch33my/Desktop/n8n/packages/@n8n/backend-common
@@ -897,17 +897,17 @@ n8n-core:build:
 @n8n/rest-api-client:build: ℹ [CJS] dist/index2.d.cts                    0.01 kB │ gzip: 0.03 kB
 @n8n/rest-api-client:build: ℹ [CJS] 67 files, total: 62.67 kB
 @n8n/rest-api-client:build: ✔ Build complete in 1792ms
-n8n-nodes-base:build: cache miss, executing fd38226603678b59
-@n8n/task-runner:build: cache hit, replaying logs 259b5eab14664f18
-@n8n/task-runner:build: 
-@n8n/task-runner:build: > @n8n/task-runner@1.57.0 build /home/alch33my/Desktop/n8n/packages/@n8n/task-runner
-@n8n/task-runner:build: > tsc -p ./tsconfig.build.json && tsc-alias -p tsconfig.build.json
-@n8n/task-runner:build: 
+n8n-nodes-base:build: cache miss, executing 5f9718cdda83c0df
 n8n-node-dev:build: cache hit, replaying logs 3885d4154a537802
 n8n-node-dev:build: 
 n8n-node-dev:build: > n8n-node-dev@1.119.0 build /home/alch33my/Desktop/n8n/packages/node-dev
 n8n-node-dev:build: > tsc --noEmit
 n8n-node-dev:build: 
+@n8n/task-runner:build: cache hit, replaying logs 259b5eab14664f18
+@n8n/task-runner:build: 
+@n8n/task-runner:build: > @n8n/task-runner@1.57.0 build /home/alch33my/Desktop/n8n/packages/@n8n/task-runner
+@n8n/task-runner:build: > tsc -p ./tsconfig.build.json && tsc-alias -p tsconfig.build.json
+@n8n/task-runner:build: 
 @n8n/db:build: cache hit, replaying logs 42848e221f5bd8c6
 @n8n/db:build: 
 @n8n/db:build: > @n8n/db@0.32.0 build /home/alch33my/Desktop/n8n/packages/@n8n/db
@@ -1663,7 +1663,7 @@ n8n-nodes-base:build: > node scripts/copy-nodes-json.js .
 n8n-nodes-base:build: 
 n8n-nodes-base:build: Default locale set to: [35men[0m
 n8n-nodes-base:build: No translation required - Skipping translations build...
-@n8n/n8n-nodes-langchain:build: cache miss, executing 7ed78614d03dca32
+@n8n/n8n-nodes-langchain:build: cache miss, executing f089fc2538f874e3
 @n8n/n8n-nodes-langchain:build: 
 @n8n/n8n-nodes-langchain:build: > @n8n/n8n-nodes-langchain@1.120.0 build /home/alch33my/Desktop/n8n/packages/@n8n/nodes-langchain
 @n8n/n8n-nodes-langchain:build: > tsup --tsconfig tsconfig.build.json && pnpm copy-nodes-json && tsc-alias -p tsconfig.build.json && pnpm copy-tokenizer-json && pnpm n8n-copy-static-files && pnpm n8n-generate-metadata
@@ -1678,7 +1678,7 @@ n8n-nodes-base:build: No translation required - Skipping translations build...
 @n8n/n8n-nodes-langchain:build: 
 @n8n/n8n-nodes-langchain:build: Copied: utils/tokenizer/cl100k_base.json -> dist/utils/tokenizer/cl100k_base.json
 @n8n/n8n-nodes-langchain:build: Copied: utils/tokenizer/o200k_base.json -> dist/utils/tokenizer/o200k_base.json
-n8n:build: cache miss, executing e50c4cb4b9c65ecf
+n8n:build: cache miss, executing 92edcf7c4b30c9aa
 n8n:build: 
 n8n:build: > n8n@1.121.0 build /home/alch33my/Desktop/n8n/packages/cli
 n8n:build: > tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && pnpm run build:data
@@ -1690,5 +1690,5 @@ n8n:build:
 
  Tasks:    39 successful, 39 total
 Cached:    36 cached, 39 total
-  Time:    37.655s 
+  Time:    18.84s 
 
