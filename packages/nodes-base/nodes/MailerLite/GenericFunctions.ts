@@ -77,37 +77,24 @@ export async function getCustomFields(
 	const returnData: INodePropertyOptions[] = [];
 	const endpoint = '/fields';
 
-	try {
-		const fieldsResponse = await mailerliteApiRequest.call(
-			this,
-			'GET',
-			endpoint,
-			{},
-			{ limit: 100 },
-		);
+	const fieldsResponse = await mailerliteApiRequest.call(this, 'GET', endpoint);
 
-		if (this.getNode().typeVersion === 1) {
-			const fields = fieldsResponse as CustomField[];
-			fields.forEach((field) => {
-				returnData.push({
-					name: field.key,
-					value: field.key,
-				});
+	if (this.getNode().typeVersion === 1) {
+		const fields = fieldsResponse as CustomField[];
+		fields.forEach((field) => {
+			returnData.push({
+				name: field.key,
+				value: field.key,
 			});
-		} else {
-			const fields = (fieldsResponse as IDataObject).data as CustomField[];
-			if (fields && Array.isArray(fields)) {
-				fields.forEach((field) => {
-					returnData.push({
-						name: field.name || field.key,
-						value: field.key,
-					});
-				});
-			}
-		}
-	} catch (error) {
-		// Return empty array if fields endpoint fails
-		console.error('Error loading custom fields:', error);
+		});
+	} else {
+		const fields = (fieldsResponse as IDataObject).data as CustomField[];
+		fields.forEach((field) => {
+			returnData.push({
+				name: field.name,
+				value: field.key,
+			});
+		});
 	}
 
 	return returnData;
@@ -116,27 +103,16 @@ export async function getCustomFields(
 export async function getGroups(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
 	const returnData: INodePropertyOptions[] = [];
 	const endpoint = '/groups';
+	const groupsResponse = await mailerliteApiRequest.call(this, 'GET', endpoint);
+	const groups = (groupsResponse as IDataObject).data as IDataObject[];
 
-	try {
-		const groupsResponse = await mailerliteApiRequest.call(
-			this,
-			'GET',
-			endpoint,
-			{},
-			{ limit: 100 },
-		);
-		const groups = (groupsResponse as IDataObject).data as IDataObject[];
-
-		if (groups && Array.isArray(groups)) {
-			groups.forEach((group) => {
-				returnData.push({
-					name: group.name as string,
-					value: group.id as string,
-				});
+	if (groups && Array.isArray(groups)) {
+		groups.forEach((group) => {
+			returnData.push({
+				name: group.name as string,
+				value: group.id as string,
 			});
-		}
-	} catch (error) {
-		console.error('Error loading groups:', error);
+		});
 	}
 
 	return returnData;
@@ -145,27 +121,16 @@ export async function getGroups(this: ILoadOptionsFunctions): Promise<INodePrope
 export async function getSegments(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
 	const returnData: INodePropertyOptions[] = [];
 	const endpoint = '/segments';
+	const segmentsResponse = await mailerliteApiRequest.call(this, 'GET', endpoint);
+	const segments = (segmentsResponse as IDataObject).data as IDataObject[];
 
-	try {
-		const segmentsResponse = await mailerliteApiRequest.call(
-			this,
-			'GET',
-			endpoint,
-			{},
-			{ limit: 250 },
-		);
-		const segments = (segmentsResponse as IDataObject).data as IDataObject[];
-
-		if (segments && Array.isArray(segments)) {
-			segments.forEach((segment) => {
-				returnData.push({
-					name: segment.name as string,
-					value: segment.id as string,
-				});
+	if (segments && Array.isArray(segments)) {
+		segments.forEach((segment) => {
+			returnData.push({
+				name: segment.name as string,
+				value: segment.id as string,
 			});
-		}
-	} catch (error) {
-		console.error('Error loading segments:', error);
+		});
 	}
 
 	return returnData;
@@ -174,27 +139,16 @@ export async function getSegments(this: ILoadOptionsFunctions): Promise<INodePro
 export async function getAutomations(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
 	const returnData: INodePropertyOptions[] = [];
 	const endpoint = '/automations';
+	const automationsResponse = await mailerliteApiRequest.call(this, 'GET', endpoint);
+	const automations = (automationsResponse as IDataObject).data as IDataObject[];
 
-	try {
-		const automationsResponse = await mailerliteApiRequest.call(
-			this,
-			'GET',
-			endpoint,
-			{},
-			{ limit: 100 },
-		);
-		const automations = (automationsResponse as IDataObject).data as IDataObject[];
-
-		if (automations && Array.isArray(automations)) {
-			automations.forEach((automation) => {
-				returnData.push({
-					name: automation.name as string,
-					value: automation.id as string,
-				});
+	if (automations && Array.isArray(automations)) {
+		automations.forEach((automation) => {
+			returnData.push({
+				name: automation.name as string,
+				value: automation.id as string,
 			});
-		}
-	} catch (error) {
-		console.error('Error loading automations:', error);
+		});
 	}
 
 	return returnData;
