@@ -1,7 +1,6 @@
 import type {
 	IExecuteFunctions,
 	IDataObject,
-	ILoadOptionsFunctions,
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
@@ -17,6 +16,9 @@ import { segmentFields, segmentOperations } from './SegmentDescription';
 import { automationFields, automationOperations } from './AutomationDescription';
 import {
 	getCustomFields,
+	getGroups,
+	getSegments,
+	getAutomations,
 	mailerliteApiRequest,
 	mailerliteApiRequestAllItems,
 } from '../GenericFunctions';
@@ -92,18 +94,9 @@ export class MailerLiteV2 implements INodeType {
 	methods = {
 		loadOptions: {
 			getCustomFields,
-			async getGroups(this: ILoadOptionsFunctions) {
-				const { getGroups } = await import('../GenericFunctions');
-				return getGroups.call(this);
-			},
-			async getSegments(this: ILoadOptionsFunctions) {
-				const { getSegments } = await import('../GenericFunctions');
-				return getSegments.call(this);
-			},
-			async getAutomations(this: ILoadOptionsFunctions) {
-				const { getAutomations } = await import('../GenericFunctions');
-				return getAutomations.call(this);
-			},
+			getGroups,
+			getSegments,
+			getAutomations,
 		},
 	};
 
