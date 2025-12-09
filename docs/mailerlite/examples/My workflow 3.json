@@ -1,0 +1,63 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "14f070c3-130d-42aa-89dc-9061adcfb908",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "group",
+        "operation": "assignSubscriber",
+        "subscriberId": "mr.giles023@gmail.com",
+        "groupId": "173343872765658630"
+      },
+      "type": "n8n-nodes-base.mailerLite",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b3af5f25-1b86-4282-bee6-1a6dcab8b05c",
+      "name": "Assign subscriber to group",
+      "credentials": {
+        "mailerLiteApi": {
+          "id": "UevuaVqYpXdMsVyQ",
+          "name": "Mailer Lite account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Assign subscriber to group",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a42598d9-1616-4943-9df3-4defd493dbf5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "80080c27543edbe351adb7075895520f686badb57c77d36fd24ea52e7ecfe184"
+  },
+  "id": "pXbhPaAOYI1XLjhz",
+  "tags": []
+}

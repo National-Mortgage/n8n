@@ -30,7 +30,7 @@ export class MailerLiteV2 implements INodeType {
 			displayName: 'MailerLite',
 			name: 'mailerLite',
 			group: ['input'],
-			version: [2],
+			version: 2,
 			subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 			description: 'Consume Mailer Lite API',
 			defaults: {
