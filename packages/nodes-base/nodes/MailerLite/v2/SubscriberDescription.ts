@@ -19,10 +19,28 @@ export const subscriberOperations: INodeProperties[] = [
 				action: 'Create a subscriber',
 			},
 			{
+				name: 'Delete',
+				value: 'delete',
+				description: 'Delete a subscriber',
+				action: 'Delete a subscriber',
+			},
+			{
+				name: 'Forget',
+				value: 'forget',
+				description: 'Forget a subscriber (GDPR compliant - deletes all data in 30 days)',
+				action: 'Forget a subscriber',
+			},
+			{
 				name: 'Get',
 				value: 'get',
-				description: 'Get an subscriber',
+				description: 'Get a subscriber',
 				action: 'Get a subscriber',
+			},
+			{
+				name: 'Get Activity',
+				value: 'getActivity',
+				description: 'Get subscriber activity log',
+				action: 'Get subscriber activity',
 			},
 			{
 				name: 'Get Many',
@@ -33,7 +51,7 @@ export const subscriberOperations: INodeProperties[] = [
 			{
 				name: 'Update',
 				value: 'update',
-				description: 'Update an subscriber',
+				description: 'Update a subscriber',
 				action: 'Update a subscriber',
 			},
 		],
@@ -129,6 +147,29 @@ export const subscriberFields: INodeProperties[] = [
 				],
 			},
 			{
+				displayName: 'Group Names or IDs',
+				name: 'groups',
+				type: 'multiOptions',
+				typeOptions: {
+					loadOptionsMethod: 'getGroups',
+				},
+				default: [],
+				description:
+					'Groups to assign the subscriber to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+			},
+			{
+				displayName: 'Resubscribe',
+				name: 'resubscribe',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to resubscribe previously unsubscribed subscribers',
+				displayOptions: {
+					show: {
+						'/operation': ['create'],
+					},
+				},
+			},
+			{
 				displayName: 'Status',
 				name: 'status',
 				type: 'options',
@@ -193,7 +234,7 @@ export const subscriberFields: INodeProperties[] = [
 	/*                                subscriber:delete                           */
 	/* -------------------------------------------------------------------------- */
 	{
-		displayName: 'Subscriber Email',
+		displayName: 'Subscriber Email or ID',
 		name: 'subscriberId',
 		type: 'string',
 		required: true,
@@ -204,14 +245,32 @@ export const subscriberFields: INodeProperties[] = [
 			},
 		},
 		default: '',
-		description: 'Email of subscriber to delete',
+		description: 'Email or ID of subscriber to delete',
+	},
+
+	/* -------------------------------------------------------------------------- */
+	/*                                subscriber:forget                           */
+	/* -------------------------------------------------------------------------- */
+	{
+		displayName: 'Subscriber Email or ID',
+		name: 'subscriberId',
+		type: 'string',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['subscriber'],
+				operation: ['forget'],
+			},
+		},
+		default: '',
+		description: 'Email or ID of subscriber to forget (GDPR - permanently deletes data in 30 days)',
 	},
 
 	/* -------------------------------------------------------------------------- */
 	/*                                  subscriber:get                            */
 	/* -------------------------------------------------------------------------- */
 	{
-		displayName: 'Subscriber Email',
+		displayName: 'Subscriber Email or ID',
 		name: 'subscriberId',
 		type: 'string',
 		required: true,
@@ -222,7 +281,120 @@ export const subscriberFields: INodeProperties[] = [
 			},
 		},
 		default: '',
-		description: 'Email of subscriber to get',
+		description: 'Email or ID of subscriber to get',
+	},
+
+	/* -------------------------------------------------------------------------- */
+	/*                              subscriber:getActivity                        */
+	/* -------------------------------------------------------------------------- */
+	{
+		displayName: 'Subscriber ID',
+		name: 'subscriberId',
+		type: 'string',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['subscriber'],
+				operation: ['getActivity'],
+			},
+		},
+		default: '',
+		description: 'ID of subscriber to get activity for',
+	},
+	{
+		displayName: 'Return All',
+		name: 'returnAll',
+		type: 'boolean',
+		displayOptions: {
+			show: {
+				resource: ['subscriber'],
+				operation: ['getActivity'],
+			},
+		},
+		default: false,
+		description: 'Whether to return all results or only up to a given limit',
+	},
+	{
+		displayName: 'Limit',
+		name: 'limit',
+		type: 'number',
+		displayOptions: {
+			show: {
+				resource: ['subscriber'],
+				operation: ['getActivity'],
+				returnAll: [false],
+			},
+		},
+		typeOptions: {
+			minValue: 1,
+			maxValue: 100,
+		},
+		default: 100,
+		description: 'Max number of results to return',
+	},
+	{
+		displayName: 'Filters',
+		name: 'filters',
+		type: 'collection',
+		placeholder: 'Add Filter',
+		displayOptions: {
+			show: {
+				operation: ['getActivity'],
+				resource: ['subscriber'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Log Name',
+				name: 'log_name',
+				type: 'options',
+				options: [
+					{
+						name: 'Campaign Send',
+						value: 'campaign_send',
+					},
+					{
+						name: 'Automation Email Sent',
+						value: 'automation_email_sent',
+					},
+					{
+						name: 'Email Open',
+						value: 'email_open',
+					},
+					{
+						name: 'Link Click',
+						value: 'link_click',
+					},
+					{
+						name: 'Email Bounce',
+						value: 'email_bounce',
+					},
+					{
+						name: 'Spam Complaint',
+						value: 'spam_complaint',
+					},
+					{
+						name: 'Unsubscribed',
+						value: 'unsubscribed',
+					},
+					{
+						name: 'Email Forward',
+						value: 'email_forward',
+					},
+					{
+						name: 'Marketing Preferences Change',
+						value: 'marketing_preferences_change',
+					},
+					{
+						name: 'Preference Center',
+						value: 'preference_center',
+					},
+				],
+				default: '',
+				description: 'Filter by activity log name',
+			},
+		],
 	},
 	/* -------------------------------------------------------------------------- */
 	/*                                  subscriber:getAll                         */

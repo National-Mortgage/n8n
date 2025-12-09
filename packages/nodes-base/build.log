@@ -1,10 +1,18 @@
 
-> n8n-nodes-base@1.119.0 build /home/alch33my/Desktop/n8n/packages/nodes-base
+> n8n-nodes-base@1.121.0 build /home/alch33my/Desktop/n8n/packages/nodes-base
 > tsc --build tsconfig.build.cjs.json && pnpm copy-nodes-json && tsc-alias -p tsconfig.build.cjs.json && pnpm n8n-copy-static-files && pnpm n8n-generate-translations && pnpm n8n-generate-metadata
 
-
-> n8n-nodes-base@1.119.0 copy-nodes-json /home/alch33my/Desktop/n8n/packages/nodes-base
-> node scripts/copy-nodes-json.js .
-
-Default locale set to: [35men[0m
-No translation required - Skipping translations build...
+nodes/Code/Code.node.ts(157,30): error TS2339: Property 'getRunnerStatus' does not exist on type 'IExecuteFunctions'.
+nodes/Files/ReadWriteFile/actions/read.operation.ts(109,25): error TS2339: Property 'resolvePath' does not exist on type 'RequestHelperFunctions & BaseHelperFunctions & BinaryHelperFunctions & DeduplicationHelperFunctions & FileSystemHelperFunctions & SSHTunnelFunctions & DataTableProxyFunctions & { ...; }'.
+nodes/Files/ReadWriteFile/actions/write.operation.ts(97,24): error TS2339: Property 'resolvePath' does not exist on type 'RequestHelperFunctions & BaseHelperFunctions & BinaryHelperFunctions & DeduplicationHelperFunctions & FileSystemHelperFunctions & SSHTunnelFunctions & DataTableProxyFunctions & { ...; }'.
+nodes/Files/ReadWriteFile/actions/write.operation.ts(99,5): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+nodes/Form/utils/utils.ts(216,63): error TS2339: Property 'defaultValue' does not exist on type '{ fieldLabel: string; elementName?: string | undefined; fieldType?: string | undefined; requiredField?: boolean | undefined; fieldOptions?: { values: { option: string; }[]; } | undefined; ... 11 more ...; maxSelections?: number | undefined; }'.
+nodes/Git/Git.node.ts(290,55): error TS2339: Property 'resolvePath' does not exist on type 'RequestHelperFunctions & BaseHelperFunctions & BinaryHelperFunctions & DeduplicationHelperFunctions & FileSystemHelperFunctions & SSHTunnelFunctions & DataTableProxyFunctions & { ...; }'.
+nodes/Git/Git.node.ts(291,44): error TS2339: Property 'isFilePathBlocked' does not exist on type 'RequestHelperFunctions & BaseHelperFunctions & BinaryHelperFunctions & DeduplicationHelperFunctions & FileSystemHelperFunctions & SSHTunnelFunctions & DataTableProxyFunctions & { ...; }'.
+nodes/ReadBinaryFile/ReadBinaryFile.node.ts(73,25): error TS2339: Property 'resolvePath' does not exist on type 'RequestHelperFunctions & BaseHelperFunctions & BinaryHelperFunctions & DeduplicationHelperFunctions & FileSystemHelperFunctions & SSHTunnelFunctions & DataTableProxyFunctions & { ...; }'.
+nodes/ReadBinaryFiles/ReadBinaryFiles.node.ts(57,74): error TS2339: Property 'resolvePath' does not exist on type 'RequestHelperFunctions & BaseHelperFunctions & BinaryHelperFunctions & DeduplicationHelperFunctions & FileSystemHelperFunctions & SSHTunnelFunctions & DataTableProxyFunctions & { ...; }'.
+nodes/Set/v2/helpers/utils.ts(140,52): error TS2353: Object literal may only specify known properties, and 'repairJSON' does not exist in type 'JSONParseOptions<IDataObject>'.
+nodes/TimeSaved/TimeSaved.node.ts(98,5): error TS2353: Object literal may only specify known properties, and 'timeSaved' does not exist in type 'ITaskMetadata'.
+nodes/WriteBinaryFile/WriteBinaryFile.node.ts(105,25): error TS2339: Property 'resolvePath' does not exist on type 'RequestHelperFunctions & BaseHelperFunctions & BinaryHelperFunctions & DeduplicationHelperFunctions & FileSystemHelperFunctions & SSHTunnelFunctions & DataTableProxyFunctions & { ...; }'.
+nodes/WriteBinaryFile/WriteBinaryFile.node.ts(107,6): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+ ELIFECYCLE  Command failed with exit code 1.
