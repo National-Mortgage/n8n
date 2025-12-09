@@ -126,7 +126,6 @@ export class MailerLiteV2 implements INodeType {
 
 						const body: IDataObject = {
 							email,
-							fields: {},
 						};
 
 						Object.assign(body, additionalFields);
@@ -135,7 +134,7 @@ export class MailerLiteV2 implements INodeType {
 							const customFieldsValues = (additionalFields.customFieldsUi as IDataObject)
 								.customFieldsValues as IDataObject[];
 
-							if (customFieldsValues) {
+							if (customFieldsValues && customFieldsValues.length > 0) {
 								const fields = {};
 
 								for (const customFieldValue of customFieldsValues) {
@@ -144,8 +143,8 @@ export class MailerLiteV2 implements INodeType {
 								}
 
 								body.fields = fields;
-								delete body.customFieldsUi;
 							}
+							delete body.customFieldsUi;
 						}
 
 						if (additionalFields.groups) {

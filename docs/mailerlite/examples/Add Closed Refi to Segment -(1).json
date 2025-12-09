@@ -1,0 +1,171 @@
+{
+  "name": "Add Closed Refi to Segment -",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        16,
+        112
+      ],
+      "id": "9bd929be-4098-409d-a7d3-422eb28bbfaa",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "opportunity",
+        "operation": "getAll",
+        "limit": 100,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "=IsClosed",
+                "operation": "=equal",
+                "value": "={{ true }}"
+              }
+            ]
+          },
+          "fields": "Id,Name,StageName,Substatus__c,imbus__Borrower_First_Name__c,imbus__Borrower_Last_Name__c,imbus__Borrower_Email__c,imbus__Borrower_Mobile__c,imbus__Borrower_Phone__c,imbus__Co_Borrower_Email__c,imbus__CoBorrower_First_Name__c,LastActivityDate,LastModifiedDate,LastStageChangeDate,imbus__Last_Contact_Attempt_pc__c,imbus__Last_Engaged_Call__c,imbus__Last_Voicemail__c,imbus__Last_Call_Disposition__c,Most_Recent_Note__c,Most_Recent_Note_Date__c,Last_LO_Note__c,Last_LO_Note_Date__c,Last_Processor_Note__c,Notes__c,imbus__Loan_Type__c,imbus__Loan_Purpose__c,imbus__Loan_Amount__c,imbus__Interest_Rate__c,imbus__Property_State__c,imbus__Property_City__c,imbus__Est_Property_Value__c,OwnerId,imbus__Loan_Officer__c,imbus__Loan_Officer_Name__c,imbus__Loan_Processor__c,LeadSource,CreatedDate,CloseDate,Expected_Closing_Date__c,imbus__Approval_Date__c,imbus__Pre_Approved_Date__c,imbus__Credit_Expiration_Date__c,imbus__Appraisal_Expiration_Date__c,imbus__Rate_Lock_Expiration__c,DoNotCall__c,Opt_Out_From_Email__c,On_Hold__c,On_Hold_Until__c,Preferred_Language__c,imbus__Preferred_Contact_Method__c,Goals__c,Why_doing_loan__c,Bonding_Moment__c,Hot_Date__c,Timeline__c,Help_Flag__c,FTHB__c,Veteran__c,imbus__FHA_VA_Streamline__c,Loss_Reason__c,Withdrawn__c,Denied__c"
+        }
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        336,
+        112
+      ],
+      "id": "45123211-f102-4664-a7f2-c3545a7cb4f0",
+      "name": "Get many opportunities",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "tfuizK5O9IX6U6Ek",
+          "name": "Salesforce account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "74decf6b-738b-49bd-9c19-a7ab47b887a5",
+              "leftValue": "={{ $json.imbus__Loan_Purpose__c }}",
+              "rightValue": "Refinance",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "449a1ff5-500d-4cea-a335-2893b02a73c6",
+              "leftValue": "={{ $json.imbus__Borrower_Email__c }}",
+              "rightValue": "null",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        112
+      ],
+      "id": "48a7674a-303a-4c54-a751-674360881e5e",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        832,
+        64
+      ],
+      "id": "fe99af0c-9fab-421d-b947-0d6c000d9053",
+      "name": "Loop Over Items"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get many opportunities": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many opportunities",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get many opportunities",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2decd73b-3026-4cc1-96ac-c1e0a885c9ee",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "80080c27543edbe351adb7075895520f686badb57c77d36fd24ea52e7ecfe184"
+  },
+  "id": "9R4eSXT3OGFAbpSx",
+  "tags": []
+}
