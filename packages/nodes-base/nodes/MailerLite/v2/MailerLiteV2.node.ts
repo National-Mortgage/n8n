@@ -38,7 +38,6 @@ export class MailerLiteV2 implements INodeType {
 			defaults: {
 				name: 'MailerLite',
 			},
-			usableAsTool: true,
 			inputs: [NodeConnectionTypes.Main],
 			outputs: [NodeConnectionTypes.Main],
 			credentials: [
