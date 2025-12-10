@@ -18,6 +18,9 @@ import {
 	sortOptions,
 	getPollStartDate,
 	filterAndManageProcessedItems,
+	getFieldsForObject,
+	getAllObjects,
+	detectFieldChanges,
 } from './GenericFunctions';
 
 export class SalesforceTrigger implements INodeType {
@@ -121,6 +124,11 @@ export class SalesforceTrigger implements INodeType {
 						description: 'When an existing opportunity is modified',
 					},
 					{
+						name: 'Record Field Updated',
+						value: 'recordFieldUpdated',
+						description: 'When a specific field on any Salesforce record is updated',
+					},
+					{
 						name: 'Task Created',
 						value: 'taskCreated',
 						description: 'When a new task is created',
@@ -159,6 +167,103 @@ export class SalesforceTrigger implements INodeType {
 				description:
 					'Name of the custom object. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 			},
+			{
+				displayName: 'Object',
+				name: 'object',
+				type: 'options',
+				typeOptions: {
+					loadOptionsMethod: 'getAllObjects',
+				},
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						triggerOn: ['recordFieldUpdated'],
+					},
+				},
+				description:
+					'The Salesforce object to watch (e.g., Opportunity, Lead, Contact). Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+			},
+			{
+				displayName: 'Field to Watch',
+				name: 'fieldToWatch',
+				type: 'options',
+				typeOptions: {
+					loadOptionsMethod: 'getFieldsForObject',
+					loadOptionsDependsOn: ['object'],
+				},
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						triggerOn: ['recordFieldUpdated'],
+					},
+				},
+				description:
+					'The specific field to watch for changes (e.g., AriveId__c, StageName). Trigger will only fire when THIS field changes. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+			},
+			{
+				displayName: 'Options',
+				name: 'options',
+				type: 'collection',
+				placeholder: 'Add Option',
+				default: {},
+				displayOptions: {
+					show: {
+						triggerOn: ['recordFieldUpdated'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Watch Multiple Fields',
+						name: 'watchMultipleFields',
+						type: 'boolean',
+						default: false,
+						description: 'Whether to watch multiple fields instead of just one',
+					},
+					{
+						displayName: 'Additional Fields',
+						name: 'additionalFields',
+						type: 'multiOptions',
+						typeOptions: {
+							loadOptionsMethod: 'getFieldsForObject',
+							loadOptionsDependsOn: ['object'],
+						},
+						default: [],
+						displayOptions: {
+							show: {
+								watchMultipleFields: [true],
+							},
+						},
+						description:
+							'Additional fields to watch. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+					},
+					{
+						displayName: 'Field Match Logic',
+						name: 'fieldMatchLogic',
+						type: 'options',
+						options: [
+							{
+								name: 'ANY Field Changed (OR)',
+								value: 'or',
+								description: 'Trigger if any of the watched fields changed',
+							},
+							{
+								name: 'ALL Fields Changed (AND)',
+								value: 'and',
+								description: 'Trigger only if all watched fields changed',
+							},
+						],
+						default: 'or',
+						displayOptions: {
+							show: {
+								watchMultipleFields: [true],
+							},
+						},
+						description: 'How to match multiple field changes',
+					},
+				],
+			},
 		],
 	};
 
@@ -183,19 +288,34 @@ export class SalesforceTrigger implements INodeType {
 				sortOptions(returnData);
 				return returnData;
 			},
+			// Get all Salesforce objects (standard + custom)
+			async getAllObjects(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				return await getAllObjects.call(this);
+			},
+			// Get all fields for a specific Salesforce object
+			async getFieldsForObject(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const objectName = this.getNodeParameter('object') as string;
+				return await getFieldsForObject.call(this, objectName);
+			},
 		},
 	};
 
 	async poll(this: IPollFunctions): Promise<INodeExecutionData[][] | null> {
-		const workflowData: { processedIds?: string[]; lastTimeChecked?: string } =
-			this.getWorkflowStaticData('node');
+		const workflowData: {
+			processedIds?: string[];
+			lastTimeChecked?: string;
+			fieldSnapshots?: Record<string, IDataObject>;
+		} = this.getWorkflowStaticData('node');
 		let responseData;
 		const qs: IDataObject = {};
 		const triggerOn = this.getNodeParameter('triggerOn') as string;
 		let triggerResource = triggerOn.slice(0, 1).toUpperCase() + triggerOn.slice(1, -7);
 		const changeType = triggerOn.slice(-7);
 
-		if (triggerResource === 'CustomObject') {
+		// Handle Record Field Updated trigger type
+		if (triggerOn === 'recordFieldUpdated') {
+			triggerResource = this.getNodeParameter('object') as string;
+		} else if (triggerResource === 'CustomObject') {
 			triggerResource = this.getNodeParameter('customObject') as string;
 		}
 
@@ -270,6 +390,70 @@ export class SalesforceTrigger implements INodeType {
 				return null;
 			}
 
+			// Handle field-level change detection for recordFieldUpdated trigger
+			if (triggerOn === 'recordFieldUpdated') {
+				if (!workflowData.fieldSnapshots) {
+					workflowData.fieldSnapshots = {};
+				}
+
+				const fieldToWatch = this.getNodeParameter('fieldToWatch') as string;
+				const options = this.getNodeParameter('options', {}) as IDataObject;
+				const watchMultipleFields = options.watchMultipleFields as boolean;
+				const additionalFields = (options.additionalFields as string[]) || [];
+				const fieldMatchLogic = (options.fieldMatchLogic as 'and' | 'or') || 'or';
+
+				// Build list of fields to watch
+				const fieldsToWatch = [fieldToWatch];
+				if (watchMultipleFields && additionalFields.length > 0) {
+					fieldsToWatch.push(...additionalFields);
+				}
+
+				// Filter records where watched field(s) actually changed
+				const recordsWithFieldChanges: IDataObject[] = [];
+
+				for (const record of responseData) {
+					const recordId = record.Id as string;
+					if (!recordId) continue;
+
+					const previousSnapshot = workflowData.fieldSnapshots[recordId];
+					const fieldChanged = detectFieldChanges(
+						record,
+						previousSnapshot,
+						fieldsToWatch,
+						fieldMatchLogic,
+					);
+
+					if (fieldChanged) {
+						recordsWithFieldChanges.push(record);
+					}
+
+					// Update snapshot for this record
+					const newSnapshot: IDataObject = {};
+					for (const field of fieldsToWatch) {
+						newSnapshot[field] = record[field];
+					}
+					workflowData.fieldSnapshots[recordId] = newSnapshot;
+				}
+
+				// Clean up old snapshots (keep only last 1000 records)
+				const snapshotKeys = Object.keys(workflowData.fieldSnapshots);
+				if (snapshotKeys.length > 1000) {
+					const keysToRemove = snapshotKeys.slice(0, snapshotKeys.length - 1000);
+					for (const key of keysToRemove) {
+						delete workflowData.fieldSnapshots[key];
+					}
+				}
+
+				workflowData.lastTimeChecked = endDate;
+
+				if (recordsWithFieldChanges.length > 0) {
+					return [this.helpers.returnJsonArray(recordsWithFieldChanges)];
+				}
+
+				return null;
+			}
+
+			// Original logic for non-field-specific triggers
 			const { newItems, updatedProcessedIds } = filterAndManageProcessedItems(
 				responseData,
 				processedIds,

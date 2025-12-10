@@ -179,26 +179,134 @@ export function sortOptions(options: INodePropertyOptions[]): void {
 	});
 }
 
+/**
+ * Salesforce date literals that should not be quoted
+ */
+const SALESFORCE_DATE_LITERALS = [
+	'TODAY',
+	'YESTERDAY',
+	'TOMORROW',
+	'THIS_WEEK',
+	'LAST_WEEK',
+	'NEXT_WEEK',
+	'THIS_MONTH',
+	'LAST_MONTH',
+	'NEXT_MONTH',
+	'THIS_QUARTER',
+	'LAST_QUARTER',
+	'NEXT_QUARTER',
+	'THIS_YEAR',
+	'LAST_YEAR',
+	'NEXT_YEAR',
+	'THIS_FISCAL_QUARTER',
+	'LAST_FISCAL_QUARTER',
+	'NEXT_FISCAL_QUARTER',
+	'THIS_FISCAL_YEAR',
+	'LAST_FISCAL_YEAR',
+	'NEXT_FISCAL_YEAR',
+];
+
 export function getValue(value: any) {
-	if (moment(value as string).isValid()) {
-		return value;
-	} else if (typeof value === 'string') {
-		return `'${value}'`;
-	} else {
-		return value;
+	// Handle null/undefined
+	if (value === null || value === undefined) {
+		return 'null';
 	}
+
+	const stringValue = String(value).trim();
+
+	// Check if it's a Salesforce date literal (TODAY, YESTERDAY, etc.)
+	if (SALESFORCE_DATE_LITERALS.includes(stringValue.toUpperCase())) {
+		return stringValue.toUpperCase();
+	}
+
+	// Check if it's a date literal with parameter (e.g., LAST_N_DAYS:7, NEXT_N_QUARTERS:2)
+	if (
+		/^(LAST|NEXT)_N_(DAYS|WEEKS|MONTHS|QUARTERS|YEARS|FISCAL_QUARTERS|FISCAL_YEARS):\d+$/i.test(
+			stringValue,
+		)
+	) {
+		return stringValue.toUpperCase();
+	}
+
+	// Check if value is wrapped in a Salesforce function (e.g., DAY_ONLY(), CALENDAR_MONTH())
+	if (
+		/^(DAY_ONLY|CALENDAR_MONTH|CALENDAR_YEAR|HOUR_IN_DAY|WEEK_IN_MONTH|WEEK_IN_YEAR)\(.+\)$/i.test(
+			stringValue,
+		)
+	) {
+		return stringValue;
+	}
+
+	// If it's a valid ISO date string, keep it as-is
+	if (moment(value as string, moment.ISO_8601, true).isValid()) {
+		return `'${value}'`;
+	}
+
+	// If it's a string, wrap in quotes
+	if (typeof value === 'string') {
+		return `'${value}'`;
+	}
+
+	// Numbers and booleans return as-is
+	return value;
 }
 
 export function getConditions(options: IDataObject) {
 	const conditions = (options.conditionsUi as IDataObject)?.conditionValues as IDataObject[];
 	let data = undefined;
 	if (Array.isArray(conditions) && conditions.length !== 0) {
-		data = conditions.map(
-			(condition: IDataObject) =>
-				`${condition.field} ${
-					condition.operation === 'equal' ? '=' : condition.operation
-				} ${getValue(condition.value)}`,
-		);
+		data = conditions.map((condition: IDataObject) => {
+			const field = condition.field as string;
+			const operation = condition.operation as string;
+			const value = condition.value;
+
+			// Handle different operators
+			switch (operation) {
+				case 'equal':
+					return `${field} = ${getValue(value)}`;
+				case 'notEqual':
+					return `${field} != ${getValue(value)}`;
+				case '<':
+				case '<=':
+				case '>':
+				case '>=':
+					return `${field} ${operation} ${getValue(value)}`;
+				case 'like':
+					return `${field} LIKE ${getValue(value)}`;
+				case 'notLike':
+					return `${field} NOT LIKE ${getValue(value)}`;
+				case 'in':
+					// value should be comma-separated string or array
+					const inValues = Array.isArray(value)
+						? value.map((v) => getValue(v)).join(',')
+						: String(value)
+								.split(',')
+								.map((v) => getValue(v.trim()))
+								.join(',');
+					return `${field} IN (${inValues})`;
+				case 'notIn':
+					const notInValues = Array.isArray(value)
+						? value.map((v) => getValue(v)).join(',')
+						: String(value)
+								.split(',')
+								.map((v) => getValue(v.trim()))
+								.join(',');
+					return `${field} NOT IN (${notInValues})`;
+				case 'includes':
+					// For multi-select picklists
+					return `${field} INCLUDES (${getValue(value)})`;
+				case 'excludes':
+					// For multi-select picklists
+					return `${field} EXCLUDES (${getValue(value)})`;
+				case 'isNull':
+					return `${field} = null`;
+				case 'isNotNull':
+					return `${field} != null`;
+				default:
+					// Fallback to original behavior
+					return `${field} ${operation} ${getValue(value)}`;
+			}
+		});
 		data = `WHERE ${data.join(' AND ')}`;
 	}
 	return data;
@@ -284,4 +392,84 @@ export function filterAndManageProcessedItems(
 	const trimmedProcessedIds = updatedProcessedIds.slice(-MAX_IDS);
 
 	return { newItems, updatedProcessedIds: trimmedProcessedIds };
+}
+
+/**
+ * Get all fields for a Salesforce object
+ */
+export async function getFieldsForObject(
+	this: ILoadOptionsFunctions,
+	objectName: string,
+): Promise<INodePropertyOptions[]> {
+	const returnData: INodePropertyOptions[] = [];
+	try {
+		const { fields } = await salesforceApiRequest.call(
+			this,
+			'GET',
+			`/sobjects/${objectName}/describe`,
+		);
+		for (const field of fields) {
+			const fieldName = field.label;
+			const fieldId = field.name;
+			returnData.push({
+				name: `${fieldName} (${fieldId})`,
+				value: fieldId,
+			});
+		}
+		sortOptions(returnData);
+		return returnData;
+	} catch (error) {
+		return returnData;
+	}
+}
+
+/**
+ * Get all Salesforce objects (standard and custom)
+ */
+export async function getAllObjects(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+	const returnData: INodePropertyOptions[] = [];
+	try {
+		const { sobjects: objects } = await salesforceApiRequest.call(this, 'GET', '/sobjects');
+		for (const object of objects) {
+			const objectName = object.label;
+			const objectId = object.name;
+			returnData.push({
+				name: objectName,
+				value: objectId,
+			});
+		}
+		sortOptions(returnData);
+		return returnData;
+	} catch (error) {
+		return returnData;
+	}
+}
+
+/**
+ * Detect if specific fields changed between current and previous record state
+ */
+export function detectFieldChanges(
+	currentRecord: IDataObject,
+	previousSnapshot: IDataObject | undefined,
+	fieldsToWatch: string[],
+	matchLogic: 'and' | 'or' = 'or',
+): boolean {
+	// If no previous snapshot, treat as new record (field changed from null)
+	if (!previousSnapshot) {
+		return true;
+	}
+
+	const changedFields = fieldsToWatch.filter((field) => {
+		const currentValue = currentRecord[field];
+		const previousValue = previousSnapshot[field];
+		return currentValue !== previousValue;
+	});
+
+	if (matchLogic === 'and') {
+		// ALL fields must have changed
+		return changedFields.length === fieldsToWatch.length;
+	} else {
+		// ANY field changed (OR logic)
+		return changedFields.length > 0;
+	}
 }

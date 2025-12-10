@@ -345,12 +345,54 @@ export const attachmentFields: INodeProperties[] = [
 										value: 'equal',
 									},
 									{
+										name: '!=',
+										value: 'notEqual',
+									},
+									{
 										name: '>',
 										value: '>',
 									},
 									{
 										name: '>=',
 										value: '>=',
+									},
+									{
+										name: 'EXCLUDES',
+										value: 'excludes',
+										description: 'For multi-select picklists',
+									},
+									{
+										name: 'IN',
+										value: 'in',
+										description: 'Matches any value in comma-separated list',
+									},
+									{
+										name: 'INCLUDES',
+										value: 'includes',
+										description: 'For multi-select picklists',
+									},
+									{
+										name: 'IS NOT NULL',
+										value: 'isNotNull',
+									},
+									{
+										name: 'IS NULL',
+										value: 'isNull',
+									},
+									{
+										name: 'LIKE',
+										value: 'like',
+										description: 'Pattern matching with % wildcards',
+									},
+									{
+										name: 'NOT IN',
+										value: 'notIn',
+										description: 'Does not match any value in comma-separated list',
+									},
+									{
+										name: 'NOT LIKE',
+										value: 'notLike',
+										description: 'Does not match pattern',
 									},
 								],
 								default: 'equal',

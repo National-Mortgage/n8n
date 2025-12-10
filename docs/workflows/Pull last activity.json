@@ -1,0 +1,144 @@
+{
+  "name": "Pull last activity",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cbc3bef5-17e4-43ec-9e08-a220f91ece8c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        160
+      ],
+      "id": "36b3cf75-b07d-45ef-bff9-34115e6e733d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "opportunity",
+        "operation": "getAll",
+        "limit": 100,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "LastModifiedDate",
+                "value": "={{ $today.minus({ days: 1 }).toISODate() }}"
+              }
+            ]
+          },
+          "fields": "Id,Name,StageName,Substatus__c,imbus__Borrower_First_Name__c,imbus__Borrower_Last_Name__c,imbus__Borrower_Email__c,imbus__Borrower_Mobile__c,imbus__Borrower_Phone__c,imbus__Co_Borrower_Email__c,imbus__CoBorrower_First_Name__c,LastActivityDate,LastModifiedDate,LastStageChangeDate,imbus__Last_Contact_Attempt_pc__c,imbus__Last_Engaged_Call__c,imbus__Last_Voicemail__c,imbus__Last_Call_Disposition__c,Most_Recent_Note__c,Most_Recent_Note_Date__c,Last_LO_Note__c,Last_LO_Note_Date__c,Last_Processor_Note__c,Notes__c,imbus__Loan_Type__c,imbus__Loan_Purpose__c,imbus__Loan_Amount__c,imbus__Interest_Rate__c,imbus__Property_State__c,imbus__Property_City__c,imbus__Est_Property_Value__c,OwnerId,imbus__Loan_Officer__c,imbus__Loan_Officer_Name__c,imbus__Loan_Processor__c,LeadSource,CreatedDate,CloseDate,Expected_Closing_Date__c,imbus__Approval_Date__c,imbus__Pre_Approved_Date__c,imbus__Credit_Expiration_Date__c,imbus__Appraisal_Expiration_Date__c,imbus__Rate_Lock_Expiration__c,DoNotCall__c,Opt_Out_From_Email__c,On_Hold__c,On_Hold_Until__c,Preferred_Language__c,imbus__Preferred_Contact_Method__c,Goals__c,Why_doing_loan__c,Bonding_Moment__c,Hot_Date__c,Timeline__c,Help_Flag__c,FTHB__c,Veteran__c,imbus__FHA_VA_Streamline__c,Loss_Reason__c,Withdrawn__c,Denied__c"
+        }
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        320,
+        80
+      ],
+      "id": "c1baab3e-30cd-40d8-9a44-f9acecea7085",
+      "name": "Get many opportunities",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "tfuizK5O9IX6U6Ek",
+          "name": "Salesforce account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "74decf6b-738b-49bd-9c19-a7ab47b887a5",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        544,
+        80
+      ],
+      "id": "99c7dbc9-8bf9-4c6a-9e5d-fc413053afd3",
+      "name": "Filter"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many opportunities",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many opportunities": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6973cd41-bdef-4ac1-82d4-3638fa5861f0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "80080c27543edbe351adb7075895520f686badb57c77d36fd24ea52e7ecfe184"
+  },
+  "id": "jRoRIDyQoqgbtvvH",
+  "tags": [
+    {
+      "updatedAt": "2025-12-08T19:49:03.320Z",
+      "createdAt": "2025-12-08T19:49:03.320Z",
+      "id": "Vdz2MeqCzCj7tfJW",
+      "name": "smart-engagement"
+    }
+  ]
+}
