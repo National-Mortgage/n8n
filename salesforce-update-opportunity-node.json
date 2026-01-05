@@ -1,0 +1,468 @@
+{
+  "name": "Salesforce Update Opportunity Template",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "opportunity",
+        "operation": "update",
+        "opportunityId": "={{ $('Salesforce Trigger').item.json.Id }}",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "fieldId": "imbus__Initial_Disclosure_Signature_Date__c",
+                "value": "={{ $json.keyDates.initialCDSignedDate }}"
+              },
+              {
+                "fieldId": "imbus__Initial_Loan_Estimate__c",
+                "value": "={{ $json.keyDates.initialLESentDate }}"
+              },
+              {
+                "fieldId": "imbus__Initial_Re_Disclosure_Date__c",
+                "value": "={{ $json.keyDates.initialReDisclosureDate }}"
+              },
+              {
+                "fieldId": "imbus__Interest_Rate__c",
+                "value": "={{ $json.noteRate }}"
+              },
+              {
+                "fieldId": "imbus__Internal_Loan_Number__c",
+                "value": "={{ $json.internalLoanIdentifier }}"
+              },
+              {
+                "fieldId": "imbus__LOS_ID__c",
+                "value": "={{ $json.ariveLoanId }}"
+              },
+              {
+                "fieldId": "imbus__LOS_Loan_Number__c",
+                "value": "={{ $json.loanNumber }}"
+              },
+              {
+                "fieldId": "imbus__LTV__c",
+                "value": "={{ $json.ltv }}"
+              },
+              {
+                "fieldId": "imbus__Last_Call_Disposition__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Last_Contact_Attempt__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Lead_Created_Date__c",
+                "value": "={{ $json.createdAt }}"
+              },
+              {
+                "fieldId": "imbus__Lender_Credits__c",
+                "value": "={{ $json.lenderCredits }}"
+              },
+              {
+                "fieldId": "imbus__LendingPadId__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Lien_Position__c",
+                "value": "={{ $json.lienPriorityType }}"
+              },
+              {
+                "fieldId": "imbus__Listing_Agent__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Loan_Amount__c",
+                "value": "={{ $json.baseLoanAmount }}"
+              },
+              {
+                "fieldId": "imbus__Loan_FICO__c",
+                "value": "={{ $json.representativeScore }}"
+              },
+              {
+                "fieldId": "imbus__Loan_Number__c",
+                "value": "={{ $json.loanNumber }}"
+              },
+              {
+                "fieldId": "imbus__Loan_Officer_Name__c",
+                "value": "={{ $json.loanTeamMembers.find(member => member.roleType === 'LoanOfficer')?.fullName }}"
+              },
+              {
+                "fieldId": "imbus__Loan_Officer__c",
+                "value": "={{ $json.loanTeamMembers.find(member => member.roleType === 'LoanOfficer')?.userId }}"
+              },
+              {
+                "fieldId": "imbus__Loan_Processor__c",
+                "value": "={{ $json.loanTeamMembers.find(member => member.roleType === 'Processor')?.userId }}"
+              },
+              {
+                "fieldId": "imbus__Loan_Product__c",
+                "value": "={{ $json.loanProductName }}"
+              },
+              {
+                "fieldId": "imbus__Loan_Purpose__c",
+                "value": "={{ $json.loanPurposeType }}"
+              },
+              {
+                "fieldId": "imbus__Loan_Sold_Date__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Loan_Term__c",
+                "value": "={{ $json.loanAmortizationTermMonths }}"
+              },
+              {
+                "fieldId": "imbus__Loan_Type__c",
+                "value": "={{ $json.loanProgramName }}"
+              },
+              {
+                "fieldId": "imbus__Lock_Period__c",
+                "value": "={{ $json.lockPeriodDays }}"
+              },
+              {
+                "fieldId": "imbus__Lock_Status__c",
+                "value": "={{ $json.lockStatus }}"
+              },
+              {
+                "fieldId": "imbus__MERS_MIN__c",
+                "value": "={{ $json.mersMin }}"
+              },
+              {
+                "fieldId": "imbus__MERS_Registration__c",
+                "value": "={{ $json.mersRegistrationIndicator }}"
+              },
+              {
+                "fieldId": "imbus__Manner_Title_Held__c",
+                "value": "={{ $json.titleManner }}"
+              },
+              {
+                "fieldId": "imbus__Monthly_Payment__c",
+                "value": "={{ $json.projectedPayment }}"
+              },
+              {
+                "fieldId": "imbus__Mortgage_Commitment_Due__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Mortgage_Commitment_Sent__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Number_Of_REO__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Number_Of_Units__c",
+                "value": "={{ $json.subjectProperty.numberOfUnits }}"
+              },
+              {
+                "fieldId": "imbus__Occupancy_Type__c",
+                "value": "={{ $json.occupancyType }}"
+              },
+              {
+                "fieldId": "imbus__OrderNumber__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__PMI_Payment__c",
+                "value": "={{ $json.miAndFundingFeeAmount }}"
+              },
+              {
+                "fieldId": "imbus__PMI_Type__c",
+                "value": "={{ $json.miCertificateId }}"
+              },
+              {
+                "fieldId": "imbus__Portal_Hash_Parameter__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Pre_Approved_Date__c",
+                "value": "={{ $json.keyDates.preApprovalDate }}"
+              },
+              {
+                "fieldId": "imbus__Preferred_Contact_Method__c",
+                "value": "={{ $json.loanBorrowers[0]?.preferredContactMethod }}"
+              },
+              {
+                "fieldId": "imbus__Problem_Upload__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Property_Address__c",
+                "value": "={{ $json.subjectProperty.streetAddress }}"
+              },
+              {
+                "fieldId": "imbus__Property_City__c",
+                "value": "={{ $json.subjectProperty.city }}"
+              },
+              {
+                "fieldId": "imbus__Property_County__c",
+                "value": "={{ $json.subjectProperty.county }}"
+              },
+              {
+                "fieldId": "imbus__Property_Flood_Insurance__c",
+                "value": "={{ $json.floodInsuranceAmount }}"
+              },
+              {
+                "fieldId": "imbus__Property_HOA__c",
+                "value": "={{ $json.hoaDues }}"
+              },
+              {
+                "fieldId": "imbus__Property_Hazard__c",
+                "value": "={{ $json.hazardInsuranceAmount }}"
+              },
+              {
+                "fieldId": "imbus__Property_Other__c",
+                "value": "={{ $json.otherInsuranceAmount }}"
+              },
+              {
+                "fieldId": "imbus__Property_State_Province__c",
+                "value": "={{ $json.subjectProperty.state }}"
+              },
+              {
+                "fieldId": "imbus__Property_State__c",
+                "value": "={{ $json.subjectProperty.state }}"
+              },
+              {
+                "fieldId": "imbus__Property_Street_2__c",
+                "value": "={{ $json.subjectProperty.unitIdentifier }}"
+              },
+              {
+                "fieldId": "imbus__Property_Street__c",
+                "value": "={{ $json.subjectProperty.streetAddress }}"
+              },
+              {
+                "fieldId": "imbus__Property_Taxes__c",
+                "value": "={{ $json.realEstateTaxes }}"
+              },
+              {
+                "fieldId": "imbus__Property_Type__c",
+                "value": "={{ $json.subjectProperty.structureBuiltYear }}"
+              },
+              {
+                "fieldId": "imbus__Property_Use__c",
+                "value": "={{ $json.occupancyType }}"
+              },
+              {
+                "fieldId": "imbus__Property_Zip__c",
+                "value": "={{ $json.subjectProperty.postalCode }}"
+              },
+              {
+                "fieldId": "imbus__ProspectMilestoneId__c",
+                "value": "={{ $json.currentLoanStatus.milestoneId }}"
+              },
+              {
+                "fieldId": "imbus__Purchase_Closing_Date__c",
+                "value": "={{ $json.estimatedClosingDate }}"
+              },
+              {
+                "fieldId": "imbus__Purchase_Price__c",
+                "value": "={{ $json.subjectProperty.propertyEstimatedValueAmount }}"
+              },
+              {
+                "fieldId": "imbus__Rate_Lock_Date__c",
+                "value": "={{ $json.keyDates.rateLockDate }}"
+              },
+              {
+                "fieldId": "imbus__Rate_Lock_Expiration__c",
+                "value": "={{ $json.keyDates.rateLockExpirationDate }}"
+              },
+              {
+                "fieldId": "imbus__Refinance_Purpose__c",
+                "value": "={{ $json.refinancePrimaryPurposeType }}"
+              },
+              {
+                "fieldId": "imbus__ReggoraId__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Second_Loan_Amount__c",
+                "value": "={{ $json.subordinateLienAmount }}"
+              },
+              {
+                "fieldId": "imbus__Send_From_User__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Start_Date_co__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Subject_Property_State_Province__c",
+                "value": "={{ $json.subjectProperty.state }}"
+              },
+              {
+                "fieldId": "imbus__Submission_Form_Date__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Submitted_to_Underwriting__c",
+                "value": "={{ $json.keyDates.submittedToUnderwritingDate }}"
+              },
+              {
+                "fieldId": "imbus__TPO_Loan_Officer__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Title_Order_Due__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Title_Ordered__c",
+                "value": "={{ $json.keyDates.titleOrderedDate }}"
+              },
+              {
+                "fieldId": "imbus__Title_Received__c",
+                "value": "={{ $json.keyDates.titleReceivedDate }}"
+              },
+              {
+                "fieldId": "imbus__Title_Vested_as__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Title_Vesting_Name__c",
+                "value": "={{ $json.titleVestingName }}"
+              },
+              {
+                "fieldId": "imbus__Tolerance_Cures__c",
+                "value": "={{ $json.toleranceCuresAmount }}"
+              },
+              {
+                "fieldId": "imbus__Total_Compensation__c",
+                "value": "={{ $json.totalCompensation }}"
+              },
+              {
+                "fieldId": "imbus__Total_Loan_Amount__c",
+                "value": "={{ $json.baseLoanAmount }}"
+              },
+              {
+                "fieldId": "imbus__TrackingNumber__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Transaction_Type__c",
+                "value": "={{ $json.loanPurposeType }}"
+              },
+              {
+                "fieldId": "imbus__UWM_Status__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__UW_Touches__c",
+                "value": ""
+              },
+              {
+                "fieldId": "imbus__Underwriting_Fee__c",
+                "value": "={{ $json.underwritingFee }}"
+              },
+              {
+                "fieldId": "imbus__Units__c",
+                "value": "={{ $json.subjectProperty.numberOfUnits }}"
+              },
+              {
+                "fieldId": "imbus__VVOE_Expiration_Date__c",
+                "value": "={{ $json.keyDates.vvoeExpirationDate }}"
+              },
+              {
+                "fieldId": "imbus__VVOE_Received_Date__c",
+                "value": "={{ $json.keyDates.vvoeReceivedDate }}"
+              },
+              {
+                "fieldId": "imbus__Vendor__c",
+                "value": "={{ $json.vendorName }}"
+              },
+              {
+                "fieldId": "imbus__Wire_Disbursement_Date__c",
+                "value": "={{ $json.keyDates.wireDisbursementDate }}"
+              },
+              {
+                "fieldId": "imbus__Wire_Ordered_Date__c",
+                "value": "={{ $json.keyDates.wireOrderedDate }}"
+              },
+              {
+                "fieldId": "imbus__Open_Loan_Officer_Conditions__c",
+                "value": "={{ $json.openLoanOfficerConditionsCount }}"
+              },
+              {
+                "fieldId": "imbus__Open_Operations_Conditions__c",
+                "value": "={{ $json.openOperationsConditionsCount }}"
+              },
+              {
+                "fieldId": "imbus__Total_Loan_Officer_Conditions__c",
+                "value": "={{ $json.totalLoanOfficerConditionsCount }}"
+              },
+              {
+                "fieldId": "imbus__Total_Operations_Conditions__c",
+                "value": "={{ $json.totalOperationsConditionsCount }}"
+              },
+              {
+                "fieldId": "imbus__Portal_Link_As_URL__c",
+                "value": "={{ $json.borrowerPortalUrl }}"
+              },
+              {
+                "fieldId": "imbus__Portal_Link__c",
+                "value": "={{ $json.borrowerPortalUrl }}"
+              },
+              {
+                "fieldId": "AriveId__c",
+                "value": "={{ $json.ariveLoanId }}"
+              },
+              {
+                "fieldId": "imbus__EASE_Link__c",
+                "value": "={{ $json.easeUrl }}"
+              },
+              {
+                "fieldId": "imbus__Referred_By__c",
+                "value": "={{ $json.referredBy }}"
+              },
+              {
+                "fieldId": "imbus__Is_In_Call_List__c",
+                "value": "={{ $json.isInCallList }}"
+              },
+              {
+                "fieldId": "imbus__Last_Contact_Attempt_pc__c",
+                "value": "={{ $json.lastContactAttemptDate }}"
+              },
+              {
+                "fieldId": "imbus__Last_Engaged_Call__c",
+                "value": "={{ $json.lastEngagedCallDate }}"
+              },
+              {
+                "fieldId": "imbus__Last_Voicemail__c",
+                "value": "={{ $json.lastVoicemailDate }}"
+              },
+              {
+                "fieldId": "Submission_Specialist__c",
+                "value": "={{ $json.loanTeamMembers.find(member => member.roleType === 'SubmissionSpecialist')?.fullName }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        820,
+        300
+      ],
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Update Salesforce Opportunity",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
+          "name": "Salesforce account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "00000000-0000-0000-0000-000000000000",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "template-salesforce-update",
+  "tags": []
+}

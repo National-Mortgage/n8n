@@ -92,7 +92,14 @@ export async function salesforceApiRequest(
 	uri?: string,
 	option: IDataObject = {},
 ): Promise<any> {
-	const authenticationMethod = this.getNodeParameter('authentication', 0, 'oAuth2') as string;
+	let authenticationMethod = 'oAuth2';
+	try {
+		// Try to get authentication parameter - trigger nodes don't have this parameter
+		authenticationMethod = this.getNodeParameter('authentication', 0, 'oAuth2') as string;
+	} catch (error) {
+		// If parameter doesn't exist (e.g., in trigger nodes), default to oAuth2
+		authenticationMethod = 'oAuth2';
+	}
 	try {
 		if (authenticationMethod === 'jwt') {
 			// https://help.salesforce.com/articleView?id=remoteaccess_oauth_jwt_flow.htm&type=5
