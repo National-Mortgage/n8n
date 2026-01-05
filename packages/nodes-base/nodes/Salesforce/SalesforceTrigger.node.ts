@@ -330,11 +330,34 @@ export class SalesforceTrigger implements INodeType {
 			const pollStartDate = getPollStartDate(workflowData.lastTimeChecked);
 			const pollEndDate = endDate;
 
-			const options = {
+			const options: {
 				conditionsUi: {
-					conditionValues: [] as IDataObject[],
+					conditionValues: IDataObject[];
+				};
+				fields?: string;
+			} = {
+				conditionsUi: {
+					conditionValues: [],
 				},
 			};
+
+			// For recordFieldUpdated trigger, include watched fields in SELECT query
+			if (triggerOn === 'recordFieldUpdated') {
+				const fieldToWatch = this.getNodeParameter('fieldToWatch') as string;
+				const triggerOptions = this.getNodeParameter('options', {}) as IDataObject;
+				const watchMultipleFields = triggerOptions.watchMultipleFields as boolean;
+				const additionalFields = (triggerOptions.additionalFields as string[]) || [];
+
+				// Build list of fields that need to be queried
+				const fieldsToQuery = ['Id', fieldToWatch];
+				if (watchMultipleFields && additionalFields.length > 0) {
+					fieldsToQuery.push(...additionalFields);
+				}
+
+				// Add these fields to the query options
+				options.fields = fieldsToQuery.join(',');
+			}
+
 			if (this.getMode() !== 'manual') {
 				if (changeType === 'Created') {
 					options.conditionsUi.conditionValues.push({
