@@ -396,6 +396,15 @@ export class SalesforceTrigger implements INodeType {
 				} else {
 					qs.q = getQuery(options, triggerResource, true);
 				}
+
+				// Log the SOQL query for debugging
+				this.logger.debug('Salesforce Trigger - Executing SOQL query:', {
+					query: qs.q,
+					triggerOn,
+					triggerResource,
+					mode: this.getMode(),
+				});
+
 				responseData = await salesforceApiRequestAllItems.call(
 					this,
 					'records',
@@ -405,6 +414,10 @@ export class SalesforceTrigger implements INodeType {
 					qs,
 				);
 			} catch (error) {
+				this.logger.error('Salesforce Trigger - Query failed:', {
+					query: qs.q,
+					error: (error as Error).message,
+				});
 				throw new NodeApiError(this.getNode(), error as JsonObject);
 			}
 

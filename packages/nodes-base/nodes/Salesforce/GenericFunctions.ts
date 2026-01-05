@@ -143,6 +143,25 @@ export async function salesforceApiRequest(
 			return await this.helpers.requestOAuth2.call(this, credentialsType, options);
 		}
 	} catch (error) {
+		// Log detailed Salesforce API error information for debugging
+		this.logger.error('Salesforce API Error Details:', {
+			message: (error as any).message,
+			// @ts-ignore
+			responseData: error.response?.data,
+			// @ts-ignore
+			responseStatus: error.response?.status,
+			// @ts-ignore
+			responseStatusText: error.response?.statusText,
+			// @ts-ignore
+			config: {
+				// @ts-ignore
+				url: error.config?.url,
+				// @ts-ignore
+				method: error.config?.method,
+				// @ts-ignore
+				params: error.config?.params,
+			},
+		});
 		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
 }
