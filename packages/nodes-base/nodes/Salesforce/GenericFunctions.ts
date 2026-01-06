@@ -263,9 +263,9 @@ export function getValue(value: any) {
 		return stringValue;
 	}
 
-	// If it's a valid ISO date string, keep it as-is
+	// If it's a valid ISO date string, return without quotes (Salesforce SOQL requirement)
 	if (moment(value as string, moment.ISO_8601, true).isValid()) {
-		return `'${value}'`;
+		return value;
 	}
 
 	// If it's a string, wrap in quotes
